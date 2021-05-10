@@ -6,9 +6,6 @@ FROM ironmansoftware/universal:latest AS installer-env
 ARG VERSION=1.6.0
 ARG PACKAGE_URL=https://imsreleases.blob.core.windows.net/universal/production/${VERSION}/Universal.linux-x64.${VERSION}.zip
 ARG DEBIAN_FRONTEND=noninteractive 
-
-USER gitpod
-
     
 # Install dependencies and clean up
 RUN apt-get update \
