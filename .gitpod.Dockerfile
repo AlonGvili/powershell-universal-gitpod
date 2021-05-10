@@ -1,16 +1,39 @@
 # Docker image file that describes an Ubuntu18.04 image with PowerShell installed from Microsoft APT Repo
-ARG fromTag=lts-ubuntu-18.04
+ARG fromTag=ubuntu:latest
 ARG imageRepo=mcr.microsoft.com/powershell
 FROM ironmansoftware/universal:latest AS installer-env
 
-ARG VERSION=1.3.1
-ARG PACKAGE_URL=https://imsreleases.blob.core.windows.net/universal/production/1.6.0/Universal.linux-x64.1.6.0.zip
+ARG VERSION=1.6.0
+ARG PACKAGE_URL=https://imsreleases.blob.core.windows.net/universal/production/${VERSION}/Universal.linux-x64.${VERSION}.zip
 ARG DEBIAN_FRONTEND=noninteractive 
 
+USER gitpod
+
+    
 # Install dependencies and clean up
 RUN apt-get update \
     && apt-get install -y apt-utils 2>&1 | grep -v "debconf: delaying package configuration, since apt-utils is not installed" \
     && apt-get install --no-install-recommends -y \
+        zip \
+        unzip \
+        bash-completion \
+        build-essential \
+        ninja-build \
+        htop \
+        jq \
+        less \
+        locales \
+        man-db \
+        nano \
+        software-properties-common \
+        sudo \
+        time \
+        vim \
+        multitail \
+        lsof \
+        ssl-cert \
+        fish \
+        zsh \
     # curl is required to grab the Linux package
         curl \
     # less is required for help in powershell
