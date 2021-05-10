@@ -3,10 +3,10 @@ ARG fromTag=lts-arm32v7-ubuntu-bionic
 ARG imageRepo=mcr.microsoft.com/powershell
 FROM ${imageRepo}:${fromTag} AS installer-env
 
-ARG VERSION=1.6.0
-ARG PACKAGE_URL=https://imsreleases.blob.core.windows.net/universal-nightly/826297109/Universal.linux-arm64.1.6.0.zip
+ARG VERSION=1.3.1
+ARG PACKAGE_URL=https://imsreleases.blob.core.windows.net/universal-nightly/826297109/Universal.linux-arm.1.6.0.zip
 ARG DEBIAN_FRONTEND=noninteractive 
-    
+
 # Install dependencies and clean up
 RUN apt-get update \
     && apt-get install -y apt-utils 2>&1 | grep -v "debconf: delaying package configuration, since apt-utils is not installed" \
