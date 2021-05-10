@@ -1,7 +1,7 @@
 # Docker image file that describes an Ubuntu18.04 image with PowerShell installed from Microsoft APT Repo
 ARG fromTag=ubuntu:latest
 ARG imageRepo=mcr.microsoft.com/powershell
-FROM ironmansoftware/universal:latest AS installer-env
+FROM ${imageRepo}:${fromTag} AS installer-env
 
 ARG VERSION=1.6.0
 ARG PACKAGE_URL=https://imsreleases.blob.core.windows.net/universal-nightly/826297109/Universal.linux-arm64.1.6.0.zip
