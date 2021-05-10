@@ -1,4 +1,5 @@
-image: ironmansoftware/universal:latest
+image:
+  file: .gitpod.Dockerfile
 
 vscode:
   extensions:
@@ -7,5 +8,11 @@ vscode:
 
 
 tasks:
-  - command: pwsh -command docker build --pull --rm -f "Dockerfile" -t universalgitpod:latest "."
-  - command: pwsh -command docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
+  # - command: pwsh -command docker build --pull --rm -f "Dockerfile" -t universalgitpod:latest "."
+  - init: pwsh
+    command: pwsh -command docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
+
+ports:
+  - port: 5000
+    visibility: public
+    onOpen: open-browser
