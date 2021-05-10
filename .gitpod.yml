@@ -5,5 +5,5 @@ vscode:
     - ms-vscode.powershell-preview
 
 tasks:
-  - init: docker build --pull --rm -f "Dockerfile" -t universalgitpod:latest "." 
-  - command: docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
+  - init: pwsh -command docker build --pull --rm -f "Dockerfile" -t universalgitpod:latest "."
+  - command: pwsh -command docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
