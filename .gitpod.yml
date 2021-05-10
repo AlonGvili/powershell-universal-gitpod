@@ -5,6 +5,5 @@ vscode:
     - ms-vscode.powershell-preview
 
 tasks:
-  - name: Start admin console
+  - init: docker build --pull --rm -f "Dockerfile" -t universalgitpod:latest "." 
   - command: docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
-  - openMode: tab-after
