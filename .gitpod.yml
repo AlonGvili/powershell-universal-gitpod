@@ -1,9 +1,11 @@
 image: ironmansoftware/universal:latest
-  
+
 vscode:
   extensions:
+    - ms-azuretools.vscode-docker
     - ms-vscode.powershell-preview
 
+
 tasks:
-  - init: pwsh -command docker build --pull --rm -f "Dockerfile" -t universalgitpod:latest "."
+  - command: pwsh -command docker build --pull --rm -f "Dockerfile" -t universalgitpod:latest "."
   - command: pwsh -command docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
