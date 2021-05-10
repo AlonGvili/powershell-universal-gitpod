@@ -6,8 +6,13 @@ vscode:
     - ms-azuretools.vscode-docker
     - ms-vscode.powershell-preview
 
-
 tasks:
+  - command: sudo docker-up
+    name: Docker daemon
+  - command: docker
+    name: build docker image
+  - command: docker build --pull --rm -f ".gitpod.Dockerfile" -t universalgitpod:latest "."
+    name: start docker image
   - command: pwsh -command docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
 
 ports:
