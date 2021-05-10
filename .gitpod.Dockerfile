@@ -4,7 +4,7 @@ ARG imageRepo=mcr.microsoft.com/powershell
 FROM ironmansoftware/universal:latest AS installer-env
 
 ARG VERSION=1.6.0
-ARG PACKAGE_URL=https://imsreleases.blob.core.windows.net/universal/production/${VERSION}/Universal.linux-x64.${VERSION}.zip
+ARG PACKAGE_URL=https://imsreleases.blob.core.windows.net/universal-nightly/826297109/Universal.linux-arm64.1.6.0.zip
 ARG DEBIAN_FRONTEND=noninteractive 
     
 # Install dependencies and clean up
