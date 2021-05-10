@@ -1,5 +1,4 @@
-image:
-  file: ironmansoftware/universal:latest
+image: ironmansoftware/universal:latest
   
 vscode:
   extensions:
