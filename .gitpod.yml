@@ -10,7 +10,7 @@ tasks:
     name: Docker daemon
   - command: docker
     name: build docker image
-  - command: docker build --pull --rm -f ".gitpod.Dockerfile" -t universalgitpod:latest "." && docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
+  - command: docker build --pull --rm -f ".gitpod.Dockerfile" -t powershelluniversal:latest "." && docker run --rm -d  -p 5000:5000/tcp powershelluniversal:latest
 
 ports:
   - port: 5000
