@@ -3,3 +3,8 @@ image: ironmansoftware/universal:latest
 vscode:
   extensions:
     - ms-vscode.powershell-preview
+
+tasks:
+  - name: Start admin console
+  - command: docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
+  - openMode: tab-after
