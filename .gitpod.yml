@@ -1,4 +1,6 @@
-
+image:
+  file: ironmansoftware/universal:latest
+  
 vscode:
   extensions:
     - ms-vscode.powershell-preview
