@@ -8,8 +8,7 @@ vscode:
 
 
 tasks:
-  - init: pwsh
-    command: pwsh -command docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
+  - command: pwsh && docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
 
 ports:
   - port: 5000
