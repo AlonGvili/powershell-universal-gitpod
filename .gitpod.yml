@@ -15,4 +15,4 @@ tasks:
 ports:
   - port: 5000
     visibility: public
-    onOpen: open-browser
+    onOpen: notify
