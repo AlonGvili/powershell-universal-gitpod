@@ -1,5 +1,5 @@
 image:
-  file: ".gitpod.Dockerfile"
+  file: .gitpod.Dockerfile
 
 vscode:
   extensions:
@@ -7,8 +7,6 @@ vscode:
     - ms-vscode.powershell-preview
 
 tasks:
-  - command: sudo docker-up
-    name: Docker daemon
   - command: docker
     name: build docker image
   - command: docker build --pull --rm -f ".gitpod.Dockerfile" -t universalgitpod:latest "." && docker run --rm -d  -p 5000:5000/tcp universalgitpod:latest
