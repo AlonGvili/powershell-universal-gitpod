@@ -1,0 +1,19 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - command: docker build --pull --rm -f ".gitpod.Dockerfile" -t universal:latest "." && docker run --rm -d  universal:latest
+
+ports:
+  - port: 5000
+    visibility: public
+    onOpen: notify
+
+vscode:
+  extensions:
+    - ms-vscode.powershell-preview
+    - ms-azuretools.vscode-docker
+    - muhammad-sammy.csharp
+    - adpyke.codesnap
+    - hbenl.vscode-test-explorer
+    - formulahendry.auto-close-tag
