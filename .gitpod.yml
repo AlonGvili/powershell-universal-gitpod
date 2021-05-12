@@ -3,9 +3,7 @@ image:
 
 tasks:
   - command: |
-        pwsh 
-        cd ../../home/Universal
-        ./Universal.Server
+        pwsh -command '../../home/Universal/Universal.Server'
 
 ports:
   - port: 5000
