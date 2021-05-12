@@ -2,12 +2,13 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - command: docker build --pull --rm -f ".gitpod.Dockerfile" -t universal:latest "." && docker run --rm -d  universal:latest
+  - command: |
+        pwsh -command "cd ../Universal; .\Universal.Server"
 
 ports:
   - port: 5000
     visibility: public
-    onOpen: notify
+    onOpen: open-browser
 
 vscode:
   extensions:

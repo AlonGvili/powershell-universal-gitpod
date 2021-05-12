@@ -111,5 +111,5 @@ RUN chmod a+x,o-w ${PS_INSTALL_FOLDER}/pwsh \
 # Use array to avoid Docker prepending /bin/sh -c
 EXPOSE 5000
 ENTRYPOINT ["./home/Universal/Universal.Server"]
-CMD [ "pwsh", "-command", "cd ../Universal; .\Universal.Server" ]
+CMD ["pwsh"]
 
