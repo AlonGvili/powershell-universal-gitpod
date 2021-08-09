@@ -3,7 +3,7 @@ image:
 
 tasks:
   - command: |
-        pwsh -command '../../home/Universal/Universal.Server'
+        pwsh -command '../../PSU/Universal.Server'
 
 ports:
   - port: 5000

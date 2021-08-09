@@ -96,20 +96,15 @@ RUN chmod a+x,o-w ${PS_INSTALL_FOLDER}/pwsh \
             Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
             Start-Sleep -Seconds 6 ; \
           }" \
-      && wget https://imsreleases.blob.core.windows.net/universal/production/2.0.0/Universal.linux-x64.2.0.0.zip \
-      &&  sudo apt install unzip \
-      &&  unzip Universal.linux-x64.2.0.0.zip -d PSU \
-      &&  chmod +x ./PSU/Universal.Server 
-          
-    # && pwsh \
-    #     -NoLogo \
-    #     -NoProfile \
-    #     -Command " \
-    #      Invoke-WebRequest -Uri 'https://imsreleases.blob.core.windows.net/universal/production/2.2.0/Universal.win7-x64.2.2.0.zip' -OutFile '/tmp/universal.zip' ; \   
-    #      Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './home/Universal' ; \
-    #      Remove-Item -Path '/tmp/universal.zip' -Force ; \
-    #      " \
-    #      && chmod +x ./home/Universal/Universal.Server
+    && pwsh \
+        -NoLogo \
+        -NoProfile \
+        -Command " \
+         Invoke-WebRequest -Uri 'https://imsreleases.blob.core.windows.net/universal/production/2.0.0/Universal.linux-x64.2.2.0.zip' -OutFile '/tmp/universal.zip' ; \   
+         Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './PSU/Universal.Server' ; \
+         Remove-Item -Path '/tmp/universal.zip' -Force ; \
+         " \
+         && chmod +x ./PSU/Universal.Server
 
 
 # Use PowerShell as the default shell
