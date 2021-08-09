@@ -16,5 +16,4 @@ vscode:
     - ms-azuretools.vscode-docker
     - muhammad-sammy.csharp
     - adpyke.codesnap
-    - hbenl.vscode-test-explorer
     - formulahendry.auto-close-tag
