@@ -101,14 +101,14 @@ RUN chmod a+x,o-w ${PS_INSTALL_FOLDER}/pwsh \
         -NoProfile \
         -Command " \
          Invoke-WebRequest -Uri 'https://imsreleases.blob.core.windows.net/universal/production/2.2.0/Universal.linux-x64.2.2.0.zip' -OutFile '/tmp/universal.zip' ; \   
-         Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './PSU/Universal.Server' ; \
+         Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './home/Universal' ; \
          Remove-Item -Path '/tmp/universal.zip' -Force ; \
          " \
-         && chmod +x ./PSU/Universal.Server
+         && chmod +x ./home/Universal/Universal.Server
 
 
 # Use PowerShell as the default shell
 # Use array to avoid Docker prepending /bin/sh -c
 EXPOSE 5000
-ENTRYPOINT ["./PSU/Universal.Server"]
+ENTRYPOINT ["./home/Universal/Universal.Server"]
 
