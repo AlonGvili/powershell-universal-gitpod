@@ -100,7 +100,7 @@ RUN chmod a+x,o-w ${PS_INSTALL_FOLDER}/pwsh \
         -NoLogo \
         -NoProfile \
         -Command " \
-         Invoke-WebRequest -Uri 'https://imsreleases.blob.core.windows.net/universal-nightly/763772058/Universal.linux-x64.1.6.0.zip' -OutFile '/tmp/universal.zip' ; \   
+         Invoke-WebRequest -Uri 'https://imsreleases.blob.core.windows.net/universal/production/2.2.0/Universal.win7-x64.2.2.0.zip' -OutFile '/tmp/universal.zip' ; \   
          Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './home/Universal' ; \
          Remove-Item -Path '/tmp/universal.zip' -Force ; \
          " \
