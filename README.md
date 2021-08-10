@@ -21,9 +21,9 @@ this will add a green GitPod button to every repo in github
 
 you can click on the link, you will be redirect to gitpod website and after a few seconds, a new browser tab will be open with the login page into powershell universal
 
-[Gitpod PowerShell Universal](https://gitpod.io#snapshot/cd39d593-afe0-49cf-b35e-e2df2be86b81)
+[Gitpod PowerShell Universal](https://gitpod.io#snapshot/52109a30-dd42-4b70-94b2-71adfe3bd466)
 
-![preview](./assets\gitpod_powershell_universal_2.2.0.gif)
+![preview](./assets/gitpod_powershell_universal_2.2.0.gif)
 
 ## **Notes**
 
