@@ -1,4 +1,4 @@
-# universal-gitpod
+# powershell-universal-gitpod
 
 This repository contains all the files that you need to try the latest powershell universal.
 
