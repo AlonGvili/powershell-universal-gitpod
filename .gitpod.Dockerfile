@@ -104,6 +104,13 @@ RUN chmod a+x,o-w ${PS_INSTALL_FOLDER}/pwsh \
          Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './home/Universal' ; \
          Remove-Item -Path '/tmp/universal.zip' -Force ; \
          " \
+    && pwsh \
+        -NoLogo \
+        -NoProfile \
+        -Command " \
+         \$value = 'Set-PSUSetting -LoggingFilePath /usr/share/UniversalAutomation/logs/log.txt -LogLevel Information -DefaultEnvironment Integrated -Telemetry'; \
+         New-Item -Path './home/gitpod/.PowerShellUniversal/Repository/.universal' -Name settings.ps1 -Value "'$value'" -Force ; \
+         " \
          && chmod +x ./home/Universal/Universal.Server
 
 

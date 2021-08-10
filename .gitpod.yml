@@ -3,6 +3,7 @@ image:
 
 tasks:
   - command: |
+        pwsh -command 'New-Item -Path ../../home/gitpod/.PowerShellUniversal/Repository -ItemType Directory -Name pages'
         pwsh -command '../../home/Universal/Universal.Server'
 
 ports:
