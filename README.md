@@ -23,7 +23,7 @@ you can click on the link, you will be redirect to gitpod website and after a fe
 
 [Gitpod PowerShell Universal](https://gitpod.io#snapshot/cd39d593-afe0-49cf-b35e-e2df2be86b81)
 
-![text](assets\gitpod_powershell_universal_2.2.0.gif)
+![preview](./assets\gitpod_powershell_universal_2.2.0.gif)
 
 ## **Notes**
 
