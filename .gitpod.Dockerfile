@@ -109,7 +109,7 @@ RUN chmod a+x,o-w ${PS_INSTALL_FOLDER}/pwsh \
         -NoProfile \
         -Command " \
          \$value = 'Set-PSUSetting -LoggingFilePath /usr/share/UniversalAutomation/logs/log.txt -LogLevel Information -DefaultEnvironment Integrated -Telemetry'; \
-         New-Item -Path './home/gitpod/.PowerShellUniversal/Repository/.universal' -Name settings.ps1 -Value "$value" -Force ; \
+         New-Item -Path './home/gitpod/.PowerShellUniversal/Repository/.universal' -Name settings.ps1 -Value "'$value'" -Force ; \
          " \
          && chmod +x ./home/Universal/Universal.Server
 
