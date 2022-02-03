@@ -5,7 +5,7 @@
 FROM ubuntu:20.04 AS installer-env
 
 # Define Args for the needed to add the package
-ARG PS_VERSION=6.2.4
+ARG PS_VERSION=7.2.1
 ARG PS_PACKAGE=powershell-${PS_VERSION}-linux-x64.tar.gz
 ARG PS_PACKAGE_URL=https://github.com/PowerShell/PowerShell/releases/download/v${PS_VERSION}/${PS_PACKAGE}
 ARG PS_INSTALL_VERSION=7
@@ -27,9 +27,8 @@ RUN tar zxf /tmp/linux.tar.gz -C ${PS_INSTALL_FOLDER}
 # Start a new stage so we lose all the tar.gz layers from the final image
 FROM ubuntu:20.04 AS powershell
 
-ARG PS_VERSION=7.1.0
+ARG PS_VERSION=7.2.1
 ARG PS_INSTALL_VERSION=7
-# ARG PACKAGE_URL=https://imsreleases.blob.core.windows.net/universal-nightly/763772058/Universal.linux-x64.1.6.0.zip
 # Copy only the files we need from the previous stage
 COPY --from=installer-env ["/opt/microsoft/powershell", "/opt/microsoft/powershell"]
 
@@ -45,34 +44,33 @@ ENV PS_INSTALL_FOLDER=/opt/microsoft/powershell/$PS_INSTALL_VERSION \
     PSModuleAnalysisCachePath=/var/cache/microsoft/powershell/PSModuleAnalysisCache/ModuleAnalysisCache \
     POWERSHELL_DISTRIBUTION_CHANNEL=PSDocker-Ubuntu-20.04
 
-# Install dependencies and clean up
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y \
+# Install dependencies
+RUN apt-get update && apt-get install --no-install-recommends -y \
     # less is required for help in powershell
-        less \
+    less \
     # requied to setup the locale
-        locales \
+    locales \
     # required for SSL
-        ca-certificates \
-        gss-ntlmssp \
-        libicu66 \
-        libssl1.1 \
-        libc6 \
-        libgcc1 \
-        libgssapi-krb5-2 \
-        liblttng-ust0 \
-        libstdc++6 \
-        zlib1g \
-        unzip \
+    ca-certificates \
+    gss-ntlmssp \
+    libicu66 \
+    libssl1.1 \
+    libc6 \
+    libgcc1 \
+    libgssapi-krb5-2 \
+    liblttng-ust0 \
+    libstdc++6 \
+    zlib1g \
+    unzip \
     # PowerShell remoting over SSH dependencies
-        openssh-client \
-    # Download the Linux package and save it
+    openssh-client \
+    # Download the Linux package, save it and clean up.
     && apt-get dist-upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen $LANG && update-locale \
-        # Download the Linux package and save it
     && echo ${PACKAGE_URL} 
+
 
 
 RUN mkdir -p /home/gitpod/dotnet && curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --install-dir /home/gitpod/dotnet
@@ -87,31 +85,31 @@ RUN chmod a+x,o-w ${PS_INSTALL_FOLDER}/pwsh \
     # and disable telemetry
     && export POWERSHELL_TELEMETRY_OPTOUT=1 \
     && pwsh \
-        -NoLogo \
-        -NoProfile \
-        -Command " \
-          \$ErrorActionPreference = 'Stop' ; \
-          \$ProgressPreference = 'SilentlyContinue' ; \
-          while(!(Test-Path -Path \$env:PSModuleAnalysisCachePath)) {  \
-            Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
-            Start-Sleep -Seconds 6 ; \
-          }" \
+    -NoLogo \
+    -NoProfile \
+    -Command " \
+    \$ErrorActionPreference = 'Stop' ; \
+    \$ProgressPreference = 'SilentlyContinue' ; \
+    while(!(Test-Path -Path \$env:PSModuleAnalysisCachePath)) {  \
+    Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
+    Start-Sleep -Seconds 6 ; \
+    }" \
     && pwsh \
-        -NoLogo \
-        -NoProfile \
-        -Command " \
-         Invoke-WebRequest -Uri 'https://imsreleases.blob.core.windows.net/universal-nightly/1550182018/Universal.linux-x64.2.6.0.zip' -OutFile '/tmp/universal.zip' ; \   
-         Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './home/Universal' ; \
-         Remove-Item -Path '/tmp/universal.zip' -Force ; \
-         " \
+    -NoLogo \
+    -NoProfile \
+    -Command " \
+    Invoke-WebRequest -Uri 'https://imsreleases.blob.core.windows.net/universal/production/2.0.0/Universal.linux-x64.2.0.0.zip' -OutFile '/tmp/universal.zip' ; \   
+    Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './home/Universal' ; \
+    Remove-Item -Path '/tmp/universal.zip' -Force ; \
+    " \
     && pwsh \
-        -NoLogo \
-        -NoProfile \
-        -Command " \
-         \$value = 'Set-PSUSetting -LoggingFilePath /usr/share/UniversalAutomation/logs/log.txt -LogLevel Information -DefaultEnvironment Integrated -Telemetry'; \
-         New-Item -Path './home/gitpod/.PowerShellUniversal/Repository/.universal' -Name settings.ps1 -Value "'$value'" -Force ; \
-         " \
-         && chmod +x ./home/Universal/Universal.Server
+    -NoLogo \
+    -NoProfile \
+    -Command " \
+    \$value = 'Set-PSUSetting -LoggingFilePath /usr/share/UniversalAutomation/logs/log.txt -LogLevel Information -DefaultEnvironment Integrated -Telemetry'; \
+    New-Item -Path './home/gitpod/.PowerShellUniversal/Repository/.universal' -Name settings.ps1 -Value "'$value'" -Force ; \
+    " \
+    && chmod +x ./home/Universal/Universal.Server
 
 
 # Use PowerShell as the default shell

@@ -30,10 +30,3 @@ you can click on the link, you will be redirect to gitpod website and after a fe
 after you log into the admin console you need to go into `Settings --> General` 
 and set `Default Environment` to Integrated and click Save.
 
-> if you don't do this, your dashboard and pages won't work.
-
-![settings](./assets/settings.png)
-
-> when creating a dashboard you must select `Integrated` in the `Environment` menu
-
-> ![dashboard settings](./assets/dashboard_settings.png)

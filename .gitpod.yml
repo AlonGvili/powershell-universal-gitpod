@@ -3,18 +3,9 @@ image:
 
 tasks:
   - command: |
-        pwsh -command 'New-Item -Path ../../home/gitpod/.PowerShellUniversal/Repository -ItemType Directory -Name pages'
         pwsh -command '../../home/Universal/Universal.Server'
 
 ports:
   - port: 5000
     visibility: public
     onOpen: open-browser
-
-vscode:
-  extensions:
-    - ms-vscode.powershell-preview
-    - ms-azuretools.vscode-docker
-    - muhammad-sammy.csharp
-    - adpyke.codesnap
-    - formulahendry.auto-close-tag
