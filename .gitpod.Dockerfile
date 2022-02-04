@@ -1,6 +1,3 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 # Docker image file that describes an Ubuntu20.04 image with PowerShell installed from Microsoft APT Repo
 FROM ubuntu:20.04 AS installer-env
 
@@ -29,6 +26,8 @@ RUN tar zxf /tmp/linux.tar.gz -C ${PS_INSTALL_FOLDER}
 # Start a new stage so we lose all the tar.gz layers from the final image
 FROM ubuntu:20.04 AS powershell
 
+
+# Install PowerShell
 USER root
 
 ARG PS_VERSION=7.1.0
@@ -96,26 +95,28 @@ RUN chmod a+x ${PS_INSTALL_FOLDER}/pwsh \
     while(!(Test-Path -Path \$env:PSModuleAnalysisCachePath)) {  \
     Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
     Start-Sleep -Seconds 6 ; \
-    }" \
-    && pwsh \
+    }" 
+    
+RUN pwsh \
     -NoLogo \
     -NoProfile \
     -Command " \
     Invoke-WebRequest -Uri 'https://imsreleases.blob.core.windows.net/universal/production/2.0.0/Universal.linux-x64.2.0.0.zip' -OutFile '/tmp/universal.zip' ; \   
     Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './home/Universal' ; \
     Remove-Item -Path '/tmp/universal.zip' -Force ; \
-    " \
-    && pwsh \
+    "
+
+RUN pwsh \
     -NoLogo \
     -NoProfile \
     -Command " \
     \$value = 'Set-PSUSetting -LoggingFilePath /usr/share/UniversalAutomation/logs/log.txt -LogLevel Information -DefaultEnvironment Integrated -Telemetry'; \
     New-Item -Path './home/gitpod/.PowerShellUniversal/Repository/.universal' -Name settings.ps1 -Value "'$value'" -Force ; \
-    " \
-    && chmod +x ./home/Universal/Universal.Server
+    "
+
+RUN chmod a+x ./home/Universal/Universal.Server
 
 
-# Use PowerShell as the default shell
 # Use array to avoid Docker prepending /bin/sh -c
 EXPOSE 5000
 ENTRYPOINT ["./home/Universal/Universal.Server"]

@@ -21,6 +21,7 @@ image:
 
 tasks:
     - command: |
+          sudo chmod 755 -R /home/gitpod/.PowerShellUniversal
           pwsh -command '../../home/Universal/Universal.Server'
 
 ports:
