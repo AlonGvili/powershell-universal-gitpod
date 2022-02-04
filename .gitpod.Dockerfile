@@ -1,11 +1,10 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-
 # Docker image file that describes an Ubuntu20.04 image with PowerShell installed from Microsoft APT Repo
 FROM ubuntu:20.04 AS installer-env
 
+USER root
+
 # Define Args for the needed to add the package
-ARG PS_VERSION=7.2.1
+ARG PS_VERSION=7.1.0
 ARG PS_PACKAGE=powershell-${PS_VERSION}-linux-x64.tar.gz
 ARG PS_PACKAGE_URL=https://github.com/PowerShell/PowerShell/releases/download/v${PS_VERSION}/${PS_PACKAGE}
 ARG PS_INSTALL_VERSION=7
@@ -27,7 +26,11 @@ RUN tar zxf /tmp/linux.tar.gz -C ${PS_INSTALL_FOLDER}
 # Start a new stage so we lose all the tar.gz layers from the final image
 FROM ubuntu:20.04 AS powershell
 
-ARG PS_VERSION=7.2.1
+
+# Install PowerShell
+USER root
+
+ARG PS_VERSION=7.1.0
 ARG PS_INSTALL_VERSION=7
 # Copy only the files we need from the previous stage
 COPY --from=installer-env ["/opt/microsoft/powershell", "/opt/microsoft/powershell"]
@@ -72,13 +75,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && echo ${PACKAGE_URL} 
 
 
-
-RUN mkdir -p /home/gitpod/dotnet && curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --install-dir /home/gitpod/dotnet
+RUN mkdir -p /home/gitpod/dotnet && curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --install-dir /home/gitpod/dotnet --runtime dotnet --version 3.1
 ENV DOTNET_ROOT=/home/gitpod/dotnet
 ENV PATH=$PATH:/home/gitpod/dotnet
 
 # Give all user execute permissions and remove write permissions for others
-RUN chmod a+x,o-w ${PS_INSTALL_FOLDER}/pwsh \
+RUN chmod a+x ${PS_INSTALL_FOLDER}/pwsh \
     # Create the pwsh symbolic link that points to powershell
     && ln -s ${PS_INSTALL_FOLDER}/pwsh /usr/bin/pwsh \
     # intialize powershell module cache
@@ -93,26 +95,28 @@ RUN chmod a+x,o-w ${PS_INSTALL_FOLDER}/pwsh \
     while(!(Test-Path -Path \$env:PSModuleAnalysisCachePath)) {  \
     Write-Host "'Waiting for $env:PSModuleAnalysisCachePath'" ; \
     Start-Sleep -Seconds 6 ; \
-    }" \
-    && pwsh \
+    }" 
+    
+RUN pwsh \
     -NoLogo \
     -NoProfile \
     -Command " \
     Invoke-WebRequest -Uri 'https://imsreleases.blob.core.windows.net/universal/production/2.0.0/Universal.linux-x64.2.0.0.zip' -OutFile '/tmp/universal.zip' ; \   
     Expand-Archive -Path '/tmp/universal.zip' -DestinationPath './home/Universal' ; \
     Remove-Item -Path '/tmp/universal.zip' -Force ; \
-    " \
-    && pwsh \
+    "
+
+RUN pwsh \
     -NoLogo \
     -NoProfile \
     -Command " \
     \$value = 'Set-PSUSetting -LoggingFilePath /usr/share/UniversalAutomation/logs/log.txt -LogLevel Information -DefaultEnvironment Integrated -Telemetry'; \
     New-Item -Path './home/gitpod/.PowerShellUniversal/Repository/.universal' -Name settings.ps1 -Value "'$value'" -Force ; \
-    " \
-    && chmod +x ./home/Universal/Universal.Server
+    "
+
+RUN chmod a+x ./home/Universal/Universal.Server
 
 
-# Use PowerShell as the default shell
 # Use array to avoid Docker prepending /bin/sh -c
 EXPOSE 5000
 ENTRYPOINT ["./home/Universal/Universal.Server"]

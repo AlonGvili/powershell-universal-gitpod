@@ -15,11 +15,13 @@ github:
         # add a label once the prebuild is ready to pull requests (defaults to false)
         addLabel: prebuilt-in-gitpod
 
+
 image:
     file: .gitpod.Dockerfile
 
 tasks:
     - command: |
+          sudo chmod 755 -R /home/gitpod/.PowerShellUniversal
           pwsh -command '../../home/Universal/Universal.Server'
 
 ports:
