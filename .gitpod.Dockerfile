@@ -29,6 +29,8 @@ RUN tar zxf /tmp/linux.tar.gz -C ${PS_INSTALL_FOLDER}
 # Start a new stage so we lose all the tar.gz layers from the final image
 FROM ubuntu:20.04 AS powershell
 
+USER root
+
 ARG PS_VERSION=7.1.0
 ARG PS_INSTALL_VERSION=7
 # Copy only the files we need from the previous stage
@@ -72,7 +74,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen $LANG && update-locale \
     && echo ${PACKAGE_URL} 
-
 
 
 RUN mkdir -p /home/gitpod/dotnet && curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --install-dir /home/gitpod/dotnet --runtime dotnet --version 3.1
